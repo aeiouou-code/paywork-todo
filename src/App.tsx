@@ -1,12 +1,12 @@
 import React from 'react';
-import TodoItem from 'components/TodoItem/TodoItem';
+import TodoList from 'components/TodoList';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div>
-      <TodoItem></TodoItem>
+      <TodoList />
     </div>
   );
-}
+};
 
 export default App;
