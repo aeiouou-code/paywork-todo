@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import { reset } from "styled-reset";
+import { createGlobalStyle } from 'styled-components';
+import { reset } from 'styled-reset';
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -20,6 +20,7 @@ body {
 button {
   cursor: pointer;
   outline: none;
+  border: none;
 }
 
 code {
