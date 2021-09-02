@@ -1,13 +1,17 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { create, remove } from 'store/actions/actionCreators';
 import styled from 'styled-components/macro';
 import TodoItem from './TodoItem/TodoItem';
-import { mockData } from 'assets/data/mockData';
+import { rootState } from 'store/reducers/rootReducer';
+import { Todo } from 'utils/types';
 
 const TodoList: React.FC = () => {
-  const data = mockData;
+  const todos = useSelector((state: rootState) => state.todos);
+
   return (
     <ListContainer>
-      {data.map((todo) => (
+      {todos.map((todo) => (
         <TodoItem key={todo.id} todo={todo} />
       ))}
     </ListContainer>
