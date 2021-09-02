@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
-import { Todo } from 'utils/types';
-import { remove } from 'store/actions/actionCreators';
+import { newStatus, Todo } from 'utils/types';
+import { checkTodo, remove } from 'store/actions/actionCreators';
 import { ReactComponent as Check } from 'assets/svg/check.svg';
 import { ReactComponent as Checked } from 'assets/svg/checked.svg';
 import { ReactComponent as Delete } from 'assets/svg/delete.svg';
@@ -11,8 +11,13 @@ interface TodoItemProps {
   todo: Todo;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo }: TodoItemProps) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const dispatch = useDispatch();
+
+  const handleCheck = () => {
+    const newStatus: newStatus = { id: todo.id, isCheck: !todo.isCheck };
+    dispatch(checkTodo(newStatus));
+  };
 
   const handleRemove = () => {
     dispatch(remove(todo.id));
@@ -21,11 +26,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }: TodoItemProps) => {
     <div>
       <ItemContainer>
         <Left>
-          {todo.isCheck ? <Check className="check" /> : <Checked className="checked" />}
+          {todo.isCheck ? (
+            <Checked onClick={handleCheck} className="checked" />
+          ) : (
+            <Check onClick={handleCheck} className="check" />
+          )}
           <Content isCheck={todo.isCheck}>{todo.content}</Content>
         </Left>
         <Right>
-          <Button onClick={() => handleRemove()}>
+          <Button onClick={handleRemove}>
             <Delete className="delete" />
           </Button>
         </Right>
@@ -64,11 +73,11 @@ const Left = styled.div`
 
 const Content = styled.h3<{ isCheck: boolean }>`
   margin-left: 15px;
-  color: ${({ theme, isCheck }) => (isCheck ? theme.color.black : theme.color.textGray)};
+  color: ${({ theme, isCheck }) => (isCheck ? theme.color.textGray : theme.color.black)};
   font-size: 18px;
   font-weight: ${({ isCheck }) => (isCheck ? 600 : 400)};
   line-height: 1.5;
-  text-decoration: ${({ isCheck }) => !isCheck && 'line-through'};
+  text-decoration: ${({ isCheck }) => isCheck && 'line-through'};
   overflow: hidden;
   text-overflow: ellipsis;
 `;
