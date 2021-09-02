@@ -1,3 +1,5 @@
+export const TODOS: string = 'todos';
+
 export const TIME_ZONE: string = 'ko-KR';
 
 export const DATE_OPTION: Intl.DateTimeFormatOptions = {

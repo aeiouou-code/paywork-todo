@@ -1,17 +1,22 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { ITodo } from 'types/todo';
-import getDate from 'utils/date';
-import { DATE_OPTION } from 'utils/constants';
+import { useDispatch } from 'react-redux';
+import { Todo } from 'utils/types';
+import { remove } from 'store/actions/actionCreators';
 import { ReactComponent as Check } from 'assets/svg/check.svg';
 import { ReactComponent as Checked } from 'assets/svg/checked.svg';
 import { ReactComponent as Delete } from 'assets/svg/delete.svg';
 
 interface TodoItemProps {
-  todo: ITodo;
+  todo: Todo;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }: TodoItemProps) => {
+  const dispatch = useDispatch();
+
+  const handleRemove = () => {
+    dispatch(remove(todo.id));
+  };
   return (
     <div>
       <ItemContainer>
@@ -20,9 +25,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }: TodoItemProps) => {
           <Content isCheck={todo.isCheck}>{todo.content}</Content>
         </Left>
         <Right>
-          <DueDate>~{getDate(todo.due, DATE_OPTION)}</DueDate>
-          <Category>{todo.category}</Category>
-          <Button>
+          <Button onClick={() => handleRemove()}>
             <Delete className="delete" />
           </Button>
         </Right>
@@ -74,20 +77,6 @@ const Right = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const DueDate = styled.p`
-  color: #8f8c8c;
-  font-size: 16px;
-`;
-
-const Category = styled.div`
-  margin-left: 15px;
-  padding: 10px;
-  background-color: ${({ theme }) => theme.color.alabaster};
-  color: black;
-  font-size: 16px;
-  border-radius: 3px;
 `;
 
 const Button = styled.button`
