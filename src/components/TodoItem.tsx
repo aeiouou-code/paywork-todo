@@ -6,6 +6,7 @@ import { checkTodo, remove } from 'store/actions/actionCreators';
 import { ReactComponent as Check } from 'assets/svg/check.svg';
 import { ReactComponent as Checked } from 'assets/svg/checked.svg';
 import { ReactComponent as Delete } from 'assets/svg/delete.svg';
+import { ReactComponent as Edit } from 'assets/svg/edit.svg';
 
 interface TodoItemProps {
   todo: Todo;
@@ -34,9 +35,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           <Content isCheck={todo.isCheck}>{todo.content}</Content>
         </Left>
         <Right>
-          <Button onClick={handleRemove}>
-            <Delete className="delete" />
-          </Button>
+          <EditBtn>
+            <Edit fill="black" className="edit" /> 수정
+          </EditBtn>
+          <DeleteBtn onClick={handleRemove}>
+            <Delete className="delete" /> 삭제
+          </DeleteBtn>
         </Right>
       </ItemContainer>
     </div>
@@ -49,7 +53,7 @@ const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   width: 680px;
   max-height: 65px;
   padding: 15px 20px;
@@ -88,12 +92,51 @@ const Right = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
-  margin-left: 15px;
+const EditBtn = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
   background-color: white;
 
+  .edit {
+    margin-right: 5px;
+  }
+
   & :hover {
+    color: ${({ theme }) => theme.color.green};
+    background-color: ${({ theme }) => theme.color.lightGreen};
+    .edit {
+      margin-right: 5px;
+      fill: ${({ theme }) => theme.color.green};
+    }
+  }
+`;
+
+const DeleteBtn = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  margin-left: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: white;
+
+  .delete {
+    margin-right: 5px;
+  }
+
+  & :hover {
+    color: ${({ theme }) => theme.color.red};
+    background-color: ${({ theme }) => theme.color.lightRed};
     .delete {
+      margin-right: 5px;
       fill: ${({ theme }) => theme.color.red};
     }
   }
