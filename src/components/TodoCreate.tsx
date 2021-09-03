@@ -8,11 +8,11 @@ const TodoCreate: React.FC = () => {
   const [nextId, setNextId] = useState(4);
   const dispatch = useDispatch();
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setContent(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     const now = new Date();
     const newTodo = {
@@ -21,9 +21,14 @@ const TodoCreate: React.FC = () => {
       isCheck: false,
       createdAt: now,
     };
-    dispatch(create(newTodo));
-    setContent('');
-    setNextId((prev) => prev + 1);
+
+    if (content === '') {
+      alert('할 일을 입력해주세요!');
+    } else {
+      dispatch(create(newTodo));
+      setContent('');
+      setNextId((prev) => prev + 1);
+    }
   };
   return (
     <Form>

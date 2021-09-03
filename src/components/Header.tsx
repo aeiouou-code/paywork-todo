@@ -32,4 +32,5 @@ const Day = styled.div`
   padding: 10px 15px;
   background-color: #fffced;
   border-radius: 5px;
+  font-weight: 500;
 `;

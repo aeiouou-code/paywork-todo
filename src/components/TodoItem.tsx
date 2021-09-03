@@ -17,26 +17,27 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const [editContent, setEditContent] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const handleCheck = () => {
+  const handleCheck = (): void => {
     const newStatus: newStatus = { id: todo.id, isCheck: !todo.isCheck };
     dispatch(checkTodo(newStatus));
   };
 
-  const handleRemove = () => {
+  const handleRemove = (): void => {
     dispatch(remove(todo.id));
   };
 
-  const editStart = () => {
+  const editStart = (): void => {
+    setEditContent(todo.content);
     setEditMode(true);
   };
 
-  const editEnd = () => {
+  const editEnd = (): void => {
     const newContent: newContent = { id: todo.id, content: editContent };
     dispatch(editTodo(newContent));
     setEditMode(false);
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEditContent(e.target.value);
   };
 
@@ -114,6 +115,7 @@ const Content = styled.h3<{ isCheck: boolean }>`
 
 const EditInput = styled.input`
   padding: 3px 5px;
+  width: 300px;
   margin-left: 10px;
   font-size: 18px;
   outline: none;
