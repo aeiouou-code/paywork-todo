@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
-import { newStatus, Todo } from 'utils/types';
-import { checkTodo, remove } from 'store/actions/actionCreators';
+import { newStatus, newContent, Todo } from 'utils/types';
+import { checkTodo, remove, editTodo } from 'store/actions/actionCreators';
 import { ReactComponent as Check } from 'assets/svg/check.svg';
 import { ReactComponent as Checked } from 'assets/svg/checked.svg';
 import { ReactComponent as Delete } from 'assets/svg/delete.svg';
@@ -14,6 +14,8 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const dispatch = useDispatch();
+  const [editContent, setEditContent] = useState('');
+  const [editMode, setEditMode] = useState(false);
 
   const handleCheck = () => {
     const newStatus: newStatus = { id: todo.id, isCheck: !todo.isCheck };
@@ -23,6 +25,21 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const handleRemove = () => {
     dispatch(remove(todo.id));
   };
+
+  const editStart = () => {
+    setEditMode(true);
+  };
+
+  const editEnd = () => {
+    const newContent: newContent = { id: todo.id, content: editContent };
+    dispatch(editTodo(newContent));
+    setEditMode(false);
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditContent(e.target.value);
+  };
+
   return (
     <div>
       <ItemContainer>
@@ -32,12 +49,22 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           ) : (
             <Check onClick={handleCheck} className="check" />
           )}
-          <Content isCheck={todo.isCheck}>{todo.content}</Content>
+          {!editMode ? (
+            <Content isCheck={todo.isCheck}>{todo.content}</Content>
+          ) : (
+            <EditInput type="text" value={editContent} onChange={handleInputChange} />
+          )}
         </Left>
         <Right>
-          <EditBtn>
-            <Edit fill="black" className="edit" /> 수정
-          </EditBtn>
+          {!editMode ? (
+            <EditBtn onClick={editStart}>
+              <Edit fill="black" className="edit" /> 수정
+            </EditBtn>
+          ) : (
+            <EditBtn onClick={editEnd}>
+              <Edit fill="black" className="edit" /> 완료
+            </EditBtn>
+          )}
           <DeleteBtn onClick={handleRemove}>
             <Delete className="delete" /> 삭제
           </DeleteBtn>
@@ -79,11 +106,25 @@ const Content = styled.h3<{ isCheck: boolean }>`
   margin-left: 15px;
   color: ${({ theme, isCheck }) => (isCheck ? theme.color.textGray : theme.color.black)};
   font-size: 18px;
-  font-weight: ${({ isCheck }) => (isCheck ? 400 : 500)};
   line-height: 1.5;
   text-decoration: ${({ isCheck }) => isCheck && 'line-through'};
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const EditInput = styled.input`
+  padding: 3px 5px;
+  margin-left: 10px;
+  font-size: 18px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid ${({ theme }) => theme.color.borderGray};
+  font-weight: 400;
+  color: ${({ theme }) => theme.color.black};
+
+  :focus {
+    border-bottom: 1px solid ${({ theme }) => theme.color.green};
+  }
 `;
 
 const Right = styled.div`
