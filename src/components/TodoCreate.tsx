@@ -1,15 +1,34 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components/macro';
+import { create } from 'store/actions/actionCreators';
+import { useDispatch } from 'react-redux';
 
 const TodoCreate: React.FC = () => {
-  const [text, setText] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [nextId, setNextId] = useState(4);
+  const dispatch = useDispatch();
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+  const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
+    setContent(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
+    const now = new Date();
+    const newTodo = {
+      id: nextId,
+      content,
+      isCheck: false,
+      createdAt: now,
+    };
+
+    if (content === '') {
+      alert('할 일을 입력해주세요!');
+    } else {
+      dispatch(create(newTodo));
+      setContent('');
+      setNextId((prev) => prev + 1);
+    }
   };
   return (
     <Form>
@@ -17,7 +36,7 @@ const TodoCreate: React.FC = () => {
         <Input
           type="text"
           placeholder="할 일을 입력해주세요."
-          value={text}
+          value={content}
           onChange={handleInput}
         />
       </InputContainer>

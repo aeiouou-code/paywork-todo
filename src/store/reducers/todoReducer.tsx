@@ -12,25 +12,27 @@ import { Todos } from 'utils/types';
 const initialState: Todos = [];
 
 const todoReducer: Reducer<Todos, AnyAction> = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case CREATE:
-      return [...state, action.payload];
+      return [...state, payload];
 
     case REMOVE:
-      return state.filter((todo) => todo.id !== action.payload);
+      return state.filter((todo) => todo.id !== payload.id);
 
     case FETCH_TODOS:
-      return [...action.payload];
+      return [...payload];
 
     case LOAD_TODOS:
       return state;
 
     case EDIT_TODO:
       return state.map((todo) => {
-        if (todo.id === action.payload.id) {
+        if (todo.id === payload.id) {
           return {
             ...todo,
-            content: action.payload.content,
+            content: payload.content,
           };
         }
         return todo;
@@ -38,10 +40,10 @@ const todoReducer: Reducer<Todos, AnyAction> = (state = initialState, action) =>
 
     case CHECK_TODO:
       return state.map((todo) => {
-        if (todo.id === action.payload.id) {
+        if (todo.id === payload.id) {
           return {
             ...todo,
-            isCheck: action.payload.isCheck,
+            isCheck: payload.isCheck,
           };
         }
         return todo;

@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import api from 'utils/api';
 import { CREATE, LOAD_TODOS, EDIT_TODO, CHECK_TODO, REMOVE } from 'store/actions/actionTypes';
 import { fetchTodos } from 'store/actions/actionCreators';
 

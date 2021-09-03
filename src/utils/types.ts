@@ -8,11 +8,16 @@ export interface Todo {
 export type Todos = Todo[];
 
 export type newTodo = {
-  id: string;
+  id: number;
   content: string;
 };
 
 export type newStatus = {
-  id: string;
+  id: number;
   isCheck: boolean;
+};
+
+export type newContent = {
+  id: number;
+  content: string | '';
 };
