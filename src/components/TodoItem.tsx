@@ -33,8 +33,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
   const editEnd = (): void => {
     const newContent: newContent = { id: todo.id, content: editContent };
-    dispatch(editTodo(newContent));
-    setEditMode(false);
+    if (editContent === '') {
+      alert('할 일을 입력해주세요!');
+    } else {
+      dispatch(editTodo(newContent));
+      setEditMode(false);
+    }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
