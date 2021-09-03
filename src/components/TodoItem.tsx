@@ -75,7 +75,7 @@ const Content = styled.h3<{ isCheck: boolean }>`
   margin-left: 15px;
   color: ${({ theme, isCheck }) => (isCheck ? theme.color.textGray : theme.color.black)};
   font-size: 18px;
-  font-weight: ${({ isCheck }) => (isCheck ? 600 : 400)};
+  font-weight: ${({ isCheck }) => (isCheck ? 400 : 500)};
   line-height: 1.5;
   text-decoration: ${({ isCheck }) => isCheck && 'line-through'};
   overflow: hidden;
