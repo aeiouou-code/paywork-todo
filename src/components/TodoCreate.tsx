@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components/macro';
-import { loadTodos, create } from 'store/actions/actionCreators';
+import { create } from 'store/actions/actionCreators';
 import { useDispatch } from 'react-redux';
 
 const TodoCreate: React.FC = () => {
